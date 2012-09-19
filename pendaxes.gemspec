@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["sorah@cookpad.com"]
   gem.description   = %q{Throw axes to pending makers!}
   gem.summary       = <<-EOS
-Throw axes to pending makers! Leaving pending long time is really bad,
+Throw axes to pending makers! Leaving a pending long time is really bad,
 shouldn't be happened.
 So, this gem sends notification to committer that added pending after a while from the commit.
 
@@ -22,4 +22,9 @@ Avoid the trouble due to pending examples :D
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+
+  gem.add_dependency 'hashr'
+  gem.add_dependency 'haml'
+  gem.add_dependency 'mail'
+  gem.add_development_dependency 'rspec'
 end
