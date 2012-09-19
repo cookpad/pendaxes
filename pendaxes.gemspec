@@ -27,4 +27,5 @@ Avoid the trouble due to pending examples :D
   gem.add_dependency 'haml'
   gem.add_dependency 'mail'
   gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rake'
 end
