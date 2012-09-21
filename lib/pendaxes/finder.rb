@@ -12,10 +12,13 @@ module Pendaxes
              end
       return @finder_cache[name] if @finder_cache[name]
       require path
-      @finder_cache[name] = @finder_latest_inherited
+      announce name, @finder_latest_inherited
     end
 
     def inherited(klass)
+      if klass.name
+        announce klass.name.gsub(/^.*::/,'').gsub(/.[A-Z]/){|s| s[0]+"_"+s[1] }.downcase.to_sym, klass
+      end
       @finder_latest_inherited = klass
     end
 
