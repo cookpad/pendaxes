@@ -7,6 +7,14 @@ So, this gem sends notification to committer that added pending after a while fr
 
 Avoid the trouble due to pending examples :D
 
+## Axes?
+
+斧... Axe in Japanese. Recently, Japanese engineer says a review comment as axe (斧).
+
+Throwing axe means "comment my opnion."
+
+This script throws axe to committer, about his/her uncontrolled pending tests.
+
 ## Requirements
 
 * Ruby (1.9.2+ recommended)
