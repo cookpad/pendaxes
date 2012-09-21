@@ -19,7 +19,7 @@ module Pendaxes
     end
 
     def report_for(pendings)
-      reporter = Reporter.find(@config.reporter.name.to_sym).new(@config.reporter)
+      reporter = Reporter.find(@config.reporter.name.to_sym).new({include_allowed: true}.merge(@config.reporter))
       reporter.add pendings
       reporter.report
     end

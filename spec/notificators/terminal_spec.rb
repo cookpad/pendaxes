@@ -35,10 +35,12 @@ describe Pendaxes::Notificator::Terminal do
       out = io.string
       out.should == <<-EOF
 foo <foo@example.com>:
-  a_spec.rb:15 - pending 'because it fails.' (@ b #{now-864000})
+
+* a_spec.rb:15 - pending 'because it fails.' (@ b #{now-864000})
 
 bar <bar@example.com>:
-  a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
+
+* a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
 
       EOF
     end
@@ -49,12 +51,14 @@ bar <bar@example.com>:
         out = io.string
         out.should == <<-EOF
 foo <foo@example.com>:
-  a_spec.rb:15 - pending 'because it fails.' (@ b #{now-864000})
-  a_spec.rb:10 - pending 'because it fails' (@ a #{now-86400})
+
+* a_spec.rb:15 - pending 'because it fails.' (@ b #{now-864000})
+* a_spec.rb:10 - pending 'because it fails' (@ a #{now-86400})
 
 bar <bar@example.com>:
-  a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
-  a_spec.rb:20 - pending 'because it fails..' (@ c #{now-86400})
+
+* a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
+* a_spec.rb:20 - pending 'because it fails..' (@ c #{now-86400})
 
         EOF
       end
