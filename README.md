@@ -9,7 +9,7 @@ Avoid the trouble due to pending examples :D
 
 ## Axes?
 
-$BI`(B... Axe in Japanese. Recently, Japanese engineer says a review comment as axe ($BI`(B).
+斧... Axe in Japanese. Recently, Japanese engineer says a review comment as axe (斧).
 
 Throwing axe means "comment my opnion."
 
