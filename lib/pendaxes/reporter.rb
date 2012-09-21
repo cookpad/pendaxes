@@ -10,6 +10,7 @@ module Pendaxes
     extend Finder
     find_in 'pendaxes/reporters'
 
+    defaults include_allowed: true
 
     def initialize(config={})
       @config = Hashr.new(self.class.defaults.merge(config))
