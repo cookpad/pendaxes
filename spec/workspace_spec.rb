@@ -102,5 +102,3 @@ describe Pendaxes::Workspace do
     end
   end
 end
-
-
