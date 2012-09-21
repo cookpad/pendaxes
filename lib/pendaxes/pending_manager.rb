@@ -3,7 +3,12 @@ require 'hashr'
 module Pendaxes
   module PendingManager
     def add(pending={})
-      @pendings << Hashr.new(pending)
+      case pending
+      when Array
+        @pendings.push *pending.map{|x| Hashr.new(x) }
+      when Hash
+        @pendings << Hashr.new(pending)
+      end
     end
 
     def pendings

@@ -1,6 +1,7 @@
 require_relative 'pending_manager'
 require_relative 'defaults'
 require_relative 'finder'
+require 'hashr'
 
 module Pendaxes
   class Reporter
@@ -11,7 +12,7 @@ module Pendaxes
 
 
     def initialize(config={})
-      @config = self.class.defaults.merge(config)
+      @config = Hashr.new(self.class.defaults.merge(config))
       @pendings = []
     end
 

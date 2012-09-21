@@ -22,6 +22,18 @@ describe Pendaxes::PendingManager do
       subject.all_pendings.first[:commit][:sha].should == 'a'
       subject.all_pendings.first[:example][:file].should == 'a'
     end
+
+    context "with Array" do
+      let(:fixture) { [{commit: {:sha => 'b'}, example: {:file => 'b'}, allowed: true}, {commit: {:sha => 'c'}, example: {:file => 'c'}, allowed: false}] }
+
+      before do
+        subject.add(fixture)
+      end
+
+      it "adds all as pending" do
+        subject.all_pendings.last(2).should == fixture
+      end
+    end
   end
 
   describe "#pendings" do

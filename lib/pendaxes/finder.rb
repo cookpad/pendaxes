@@ -19,6 +19,10 @@ module Pendaxes
       @finder_latest_inherited = klass
     end
 
+    def announce(name, klass)
+      (@finder_cache ||= {})[name] = klass
+    end
+
     def find_in(prefix)
       @finder_prefix = prefix + "/"
     end
