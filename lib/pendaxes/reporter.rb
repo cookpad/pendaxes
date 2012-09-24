@@ -20,7 +20,7 @@ module Pendaxes
     def report
     end
 
-    def html?
+    def self.html?
       false
     end
   end

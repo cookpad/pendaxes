@@ -15,9 +15,9 @@ describe Pendaxes::Reporter do
     described_class.new.should be_respond_to(:report)
   end
 
-  describe "#html?" do
+  describe ".html?" do
     it "returns false" do
-      described_class.new.html?.should be_false
+      described_class.html?.should be_false
     end
   end
 end
