@@ -32,7 +32,8 @@ module Pendaxes
     end
 
     def git(*args)
-      system(@config.git || "git", *args)
+      str = IO.popen([@config.git || "git", *args], 'r', &:read)
+      $?.success? ? str : nil
     end
   end
 end

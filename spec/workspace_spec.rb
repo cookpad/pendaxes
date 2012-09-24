@@ -3,7 +3,7 @@ require 'pendaxes/workspace'
 require 'fileutils'
 
 describe Pendaxes::Workspace do
-  let(:repository) { "#{File.dirname(__FILE__)}/fixtures/repo" }
+  let(:repository) { "#{File.dirname(__FILE__)}/../fixtures/repo" }
   let(:config) { {path: "/tmp/repo", repository: repository} }
 
   subject do
@@ -88,16 +88,27 @@ describe Pendaxes::Workspace do
 
   describe "#git" do
     it "invokes git" do
-      subject.should_receive(:system).with("git", "a", "b", "c").and_return(:foo)
+      IO.should_receive(:popen).with(["git", "a", "b", "c"], 'r').and_return(:foo)
       subject.git("a", "b", "c").should == :foo
     end
 
+    context "if git failed" do
+      before do
+        IO.stub(popen: '')
+        $?.stub(success?: false)
+      end
+
+      it "returns nil" do
+        subject.git('a').should be_nil
+      end
+    end
+
     context "with config.git" do
-      let(:config) { {directory: "/tmp/repo", repository: "#{File.dirname(__FILE__)}/fixtures/repo", git: "/path/to/git"} }
+      let(:config) { {directory: "/tmp/repo", repository: repository, git: "/path/to/git"} }
 
       it "invokes specified git" do
-        subject.should_receive(:system).with("/path/to/git", "a", "b", "c").and_return(:foo)
-        subject.git("a", "b", "c").should == :foo
+        IO.should_receive(:popen).with(["/path/to/git", "a", "b", "c"], 'r').and_return(:bar)
+        subject.git("a", "b", "c").should == :bar
       end
     end
   end

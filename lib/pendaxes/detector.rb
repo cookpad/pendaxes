@@ -9,8 +9,11 @@ module Pendaxes
     extend Finder
     find_in 'pendaxes/detectors'
 
+    defaults allowed_for: 604800
+
     def initialize(workspace, config={})
       @config = Hashr.new(self.class.defaults.merge(config))
+      @workspace = workspace
       @pendings = []
     end
 
