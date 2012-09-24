@@ -3,6 +3,7 @@
   %head
     %meta{charset: 'UTF-8'}
     %title Pendaxes report - #{pendings.size} pendings are waiting to be fixed
+  %body
     :css
       * {
         font-family: sans-serif;
@@ -39,7 +40,6 @@
         padding-bottom: 5px;
         padding-left: 10px;
       }
-  %body
     %h1 #{pendings.size} pendings are waiting to be fixed
     - if config.report_url
       %p
