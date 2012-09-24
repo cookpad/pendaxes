@@ -1,0 +1,78 @@
+!!! 5
+%html
+  %head
+    %meta{charset: 'UTF-8'}
+    %title Pendaxes report - #{pendings.size} pendings are waiting to be fixed
+    :css
+      * {
+        font-family: sans-serif;
+        color: #3C3C3C;
+      }
+      .avatar {
+        float: left;
+        width: 60px;
+        margin-right: 12px;
+      }
+      h3 {
+        font-size: 1.8em;
+        margin-top: 0px;
+        margin-bottom: 15px;
+      }
+      .right {
+        float: left;
+        width: 80%;
+      }
+      .clear {
+        clear: both;
+        height: 28px;
+      }
+      .monospace {
+        font-family: 'Inconsolata', 'Monaco', monospace;
+      }
+      section header {
+        width: 100%;
+        background-color: #e9e7e6;
+        border-radius: 5px;
+        margin-top: 0px;
+        margin-bottom: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+      }
+  %body
+    %h1 #{pendings.size} pendings are waiting to be fixed
+    - if config.report_url
+      %p
+        Full Report:
+        %a{href: config.report_url}&= config.report_url
+    = config.message || ""
+    %h2 Pendings
+    - pendings.sort_by {|x| (Time.now - x[:commit][:at]) * (config.older_first ? -1 : 1) }.each do |pending|
+      %section
+        - if config.gravatar
+          %div.avatar
+            %img{src: "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(pending[:commit][:email])}.png?s=120", width: 60, height: 60}
+        %div.right
+          %header
+            %h3&= pending[:example][:message]
+            %div.at
+              %span.relative{style: pending[:allowed] ? '' : 'font-weight: bold;'}&= relative_time(pending[:commit][:at])
+              = " - "
+              %time&= pending[:commit][:at]
+          %div.parent
+            %strong In:
+            %span.monospace&= pending[:example][:parent]
+          %div.file
+            %strong File:
+            - if config.file_url
+              %a.monospace{href: config.file_url.gsub(/%file%/, pending[:example][:file]).gsub(/%line%/, pending[:example][:line].to_s)}&= "#{pending[:example][:file]}:#{pending[:example][:line]}"
+            - else
+              %span.monospace&= "#{pending[:example][:file]}:#{pending[:example][:line]}"
+          %div.commit
+            %strong Commit:
+            - if config.commit_url
+              %a.monospace{href: config.commit_url.gsub(/%commit%/, pending[:commit][:sha])}&= pending[:commit][:sha]
+            - else
+              %span.monospace&= pending[:commit][:sha]
+            &= " by #{pending[:commit][:name]}"
+      %div.clear
