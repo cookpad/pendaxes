@@ -25,7 +25,7 @@ module Pendaxes
 
           files.inject([]) do |pendings, file|
             @config.out.puts "* #{file}" if @config.out
-            file_content = File.read(file)
+            file_content = File.read(file).force_encoding(@config.encoding || "UTF-8")
             lines = file_content.split(/\r?\n/)
             tokens = Ripper.lex(file_content, file)
             _prev = nil
