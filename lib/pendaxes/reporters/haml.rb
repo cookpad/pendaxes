@@ -7,6 +7,7 @@ module Pendaxes
   class Reporter
     class Haml < Reporter
       defaults commit_url: nil,
+               file_url: nil,
                report_url: nil,
                gravatar: true,
                older_first: true,

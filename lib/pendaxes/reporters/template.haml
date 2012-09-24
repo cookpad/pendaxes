@@ -43,7 +43,7 @@
     %h1 #{pendings.size} pendings are waiting to be fixed
     - if config.report_url
       %p
-        Full Report:
+        %strong Full Report:
         %a{href: config.report_url}&= config.report_url
     = config.message || ""
     %h2 Pendings
