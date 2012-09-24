@@ -19,7 +19,7 @@ module Pendaxes
       def detect
         @workspace.dive do
           pattern = @config.pattern.is_a?(Array) ? @config.pattern : [@config.pattern]
-          grep = @workspace.git(*GREP_CMD, *pattern)
+          grep = @workspace.git(*GREP_CMD, *pattern).force_encoding("UTF-8")
           return [] unless grep
           files = grep.split(/\r?\n/).map(&:chomp)
 
@@ -65,7 +65,7 @@ module Pendaxes
 
       def blame(file, line)
         @config.out.puts "  * blaming #{file}:#{line}" if @config.out
-        blame = @workspace.git('blame', '-L', "#{line},#{line}", '-l', '-w', '-p', file).split(/\r?\n/).map{|l| l.split(/ /) }
+        blame = @workspace.git('blame', '-L', "#{line},#{line}", '-l', '-w', '-p', file).force_encoding("UTF-8").split(/\r?\n/).map{|l| l.split(/ /) }
         commit = {
           sha: blame[0].first, name: blame[1][1..-1].join(' '),
           email: blame[2][1..-1].join(' ').gsub(/^</,'').gsub(/>$/,'')
