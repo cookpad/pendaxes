@@ -38,6 +38,12 @@ describe Pendaxes::Finder do
         subject.find(:foo).should == klass
       end
     end
+
+    context "with not Symbol or String" do
+      it "raises ArgumentError" do
+        expect { subject.find(Object.new) }.to raise_error(ArgumentError)
+      end
+    end
   end
 
   describe ".find_in" do
