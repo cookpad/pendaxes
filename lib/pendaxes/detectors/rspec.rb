@@ -1,3 +1,4 @@
+# coding: utf-8
 require_relative '../detector'
 require 'time'
 require 'ripper'
