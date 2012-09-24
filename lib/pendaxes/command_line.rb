@@ -47,7 +47,7 @@ module Pendaxes
     def notify
       @config.notifications.map{|x| Hashr.new(x) }.each do |notification|
         puts "  * #{notification.name}"
-        notificator = Notificator.find(notification.name.to_sym).new(notification)
+        notificator = Notificator.find(notification.name.to_sym).new({out: $stdout}.merge(notification))
         notificator.add @pendings
         notificator.notify
       end

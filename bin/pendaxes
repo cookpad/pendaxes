@@ -6,9 +6,4 @@ rescue LoadError
   retry
 end
 
-require 'mail'
-Mail.defaults do
-  delivery_method :test
-end
-
 exit Pendaxes.run(*ARGV)

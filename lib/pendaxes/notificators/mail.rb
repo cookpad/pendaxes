@@ -1,4 +1,5 @@
 require_relative '../notificator'
+require 'mail'
 
 module Pendaxes
   class Notificator
@@ -30,17 +31,21 @@ module Pendaxes
       private
 
       def deliver(pends,email)
-        return nil if blacklist.match?(email) || (whitelist && !whitelist.match?(email))
+        real_email = (@config.alias || {})[email] || email
+        return nil if blacklist.match?(real_email) || (whitelist && !whitelist.match?(real_email))
+
         mail = ::Mail.new
         mail.from = @config.from
-        mail.to = email
+        mail.to = real_email
         mail.subject = "[Pendaxes] Your #{pends.size} pending tests are waiting to be fixed"
         mail.body = report_for(pends)
         mail.content_type = 'text/html; charset=utf-8' if reporter.html?
 
         if @config.delivery_method
-          mail.delivery_method @config.delivery_method, @config.delivery_options || {}
+          mail.delivery_method @config.delivery_method.to_sym, @config.delivery_options || {}
         end
+
+        @config.out.puts mail.inspect if @config.out
 
         mail.deliver
       end

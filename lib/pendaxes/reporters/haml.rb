@@ -17,6 +17,8 @@ module Pendaxes
         haml.render(binding, config: @config)
       end
 
+      def self.html?; true; end
+
       private
 
       def relative_time(time, from = Time.now)
