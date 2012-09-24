@@ -33,7 +33,7 @@ module Pendaxes
     end
 
     def detect
-      @detector = Detector.find(@config.detection.name.to_sym).new(@workspace, @config.detection)
+      @detector = Detector.find(@config.detection.name.to_sym).new(@workspace, {out: $stdout}.merge(@config.detection))
       @pendings = @detector.detect
     end
 

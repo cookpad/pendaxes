@@ -23,11 +23,10 @@ module Pendaxes
           files = grep.split(/\r?\n/).map(&:chomp)
 
           files.inject([]) do |pendings, file|
-            puts "* #{file}"
+            @config.out.puts "* #{file}" if @config.out
             file_content = File.read(file)
             lines = file_content.split(/\r?\n/)
             tokens = Ripper.lex(file_content, file)
-            puts "  * parsed"
             _prev = nil
 
             tokens.each_with_index do |token, i|
@@ -64,7 +63,7 @@ module Pendaxes
       private
 
       def blame(file, line)
-        puts "  * blaming #{file}:#{line}"
+        @config.out.puts "  * blaming #{file}:#{line}" if @config.out
         blame = @workspace.git('blame', '-L', "#{line},#{line}", '-l', '-w', '-p', file).split(/\r?\n/).map{|l| l.split(/ /) }
         commit = {
           sha: blame[0].first, name: blame[1][1..-1].join(' '),
