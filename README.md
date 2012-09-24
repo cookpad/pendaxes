@@ -22,12 +22,22 @@ Avoid the trouble due to pending examples :D
     detection:
       name: rspec
     workspace:
-      path: /path/to/be/cloned
+      path: /path/to/be/cloned/repository
+      repository: "https://github.com/user/repo.git"
     report:
-      name: :text
-      to: report.txt
+      name: haml
+      include_allowed: true
+      to: "report.html"
+      commit_url: "https://github.com/user/repo/commit/%commit%"
+      file_url: "https://github.com/user/repo/blob/HEAD/%file%#L%line%"
     notifications:
       - name: terminal
+      - name: mail
+        reporter:
+          name: haml
+          include_allowed: true
+          commit_url: "https://github.com/user/repo/commit/%commit%"
+          file_url: "https://github.com/user/repo/blob/HEAD/%file%#L%line%"
 
 ## Axes?
 
