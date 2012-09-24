@@ -7,6 +7,28 @@ So, this gem sends notification to committer that added pending after a while fr
 
 Avoid the trouble due to pending examples :D
 
+## Installation
+
+(1.9 required)
+
+    $ gem install pendaxes
+
+## Usage
+
+    $ pendaxes config_file.yml
+
+### Configuration
+
+    detection:
+      name: rspec
+    workspace:
+      path: /path/to/be/cloned
+    report:
+      name: :text
+      to: report.txt
+    notifications:
+      - name: terminal
+
 ## Axes?
 
 斧... Axe in Japanese. Recently, Japanese engineer says a review comment as axe (斧).
@@ -17,31 +39,13 @@ This script throws axe to committer, about his/her uncontrolled pending tests.
 
 ## Requirements
 
-* Ruby (1.9.2+ recommended)
+* Ruby 1.9+ (1.9.3 supported)
 * git
 
 we're using `git grep` and `git blame` to detect pendings, and supported test suite is currently `rspec` only.
 this gem supports git managed repository, and using rspec.
 
 Patches for other environment are welcomed. :-)
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'pendaxes'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install pendaxes
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## License
 
