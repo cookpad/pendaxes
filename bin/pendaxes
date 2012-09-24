@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+begin
+  require 'pendaxes'
+rescue LoadError
+  $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+  retry
+end
+
+require 'mail'
+Mail.defaults do
+  delivery_method :test
+end
+
+exit Pendaxes.run(*ARGV)

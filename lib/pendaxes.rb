@@ -1,5 +1,10 @@
 require "pendaxes/version"
+require "pendaxes/command_line"
 
 module Pendaxes
-  # Your code goes here...
+  class << self
+    def run(*args)
+      CommandLine.new(*args).run
+    end
+  end
 end
