@@ -18,9 +18,6 @@ module Pendaxes
       puts "=> Detect pendings"
       detect
 
-      puts "=> Writing report"
-      report
-
       puts "=> Send notifications"
       notify
 
@@ -37,16 +34,9 @@ module Pendaxes
       @pendings = @detector.detect
     end
 
-    def report
-      @reporter = Reporter.find(@config.report.use.to_sym).new(@config.report)
-      @reporter.add @pendings
-      report = @reporter.report
-      open(@config.report.to, 'w') {|io| io.puts report }
-    end
-
     def notify
       @config.notifications.map{|x| Hashr.new(x) }.each do |notification|
-        puts "  * #{notification.use}"
+        puts " * #{notification.use}"
         notificator = Notificator.find(notification.use.to_sym).new({out: $stdout}.merge(notification))
         notificator.add @pendings
         notificator.notify

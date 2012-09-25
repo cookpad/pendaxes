@@ -32,10 +32,11 @@ Finally send notification to committers via email (from `no-reply@example.com`).
     workspace:
       path: /path/to/be/cloned/repository        # where to clone?
       repository: https://github.com/foo/bar.git # where clone from?
-    report:
-      use: haml
-      to: "report.html"
     notifications:
+      - use: file
+        to: "report.html"
+        reporter:
+          use: haml
       - use: mail
         from: no-reply@example.com
         reporter:
@@ -53,18 +54,23 @@ Finally send notification to committers via email (from `no-reply@example.com`).
       path: /path/to/be/cloned/repository            # where to clone?
       repository: "https://github.com/user/repo.git" # where clone from?
 
-    report: # report configuration to save
-      use: haml              # what reporter to use (haml and text is bundled in the gem)
-      to: "report.html"      # where to save?
-      include_allowed: true  # include "allowed" pendings in report. (default: true)
-      # VVV haml reporter specific configuration VVV
-      commit_url: "https://github.com/user/repo/commit/%commit%"        # Used for link to commit. %commit% will be replaced to sha1. If not specified, will not be a link.
-      file_url: "https://github.com/user/repo/blob/HEAD/%file%#L%line%" # Used for link to file. %file% and %line% will be replaced to filepath and line no. If not specified, will not be a link.
-
     notifications: # notifications. multiple values are accepted.
-      - use: terminal # use terminal notificator.
-      - use: mail # use mail notificator.
-        reporter: # reporter setting for this (mail) notification
+      - use: terminal # use terminal notificator. will show pendings on Terminal.
+
+      - use: file                # use file notificator. this will write report
+        to: "report.html"        # where to save?
+        reporter:                # report configuration to save
+          use: haml              # what reporter to use (haml and text is bundled in the gem)
+          include_allowed: true  # include "allowed" pendings in report. (default: true)
+
+          # VVV haml reporter specific configuration VVV
+          # Used for link to commit. %commit% will be replaced to sha1. If not specified, will not be a link.
+          commit_url: "https://github.com/user/repo/commit/%commit%"
+          # Used for link to file. %file% and %line% will be replaced to filepath and line no. If not specified, will not be a link.
+          file_url: "https://github.com/user/repo/blob/HEAD/%file%#L%line%"
+
+      - use: mail # use mail notificator. will send mails about left pendings.
+        reporter:
           use: haml
           commit_url: "https://github.com/user/repo/commit/%commit%"
           file_url: "https://github.com/user/repo/blob/HEAD/%file%#L%line%"
@@ -90,8 +96,8 @@ Finally send notification to committers via email (from `no-reply@example.com`).
           "foo@gmail.com": "foo@company.com"
 
 
-* Reporter: generates text or html by given pendings
-* Notificator: get text or html by reporter, and notify it (via mail, to terminal, etc...)
+* Reporter: generates text or html (report) by given pendings
+* Notificator: throw pendings to reporter and get report, and notify it (via mail, to terminal, to file, etc...)
 
 ## Axes?
 
