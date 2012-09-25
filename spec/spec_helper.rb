@@ -11,6 +11,10 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+  config.before(:suite) do
+    system "tar", "-C", "#{File.dirname(__FILE__)}/../fixtures", "-xf", "#{File.dirname(__FILE__)}/../fixtures/repo.tar.gz"
+  end
 end
 
 $:.unshift File.expand_path("#{File.dirname(__FILE__)}/../lib")
