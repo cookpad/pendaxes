@@ -1,5 +1,7 @@
 # Pendaxes
 
+![sample notification using mail](https://img.skitch.com/20120925-essq4fdifg79axb2ssi2cyb2ne.png)
+
 Throw axes to pending makers!
 
 Leaving a pending long time is really bad, shouldn't be happened. They'll make a trouble.
