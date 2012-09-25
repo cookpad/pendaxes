@@ -32,10 +32,10 @@ describe Pendaxes::Notificator do
       Pendaxes::Reporter.announce(:report_for, reporter)
     end
 
-    subject { described_class.new(reporter: {name: :report_for, foo: :bar}) }
+    subject { described_class.new(reporter: {use: :report_for, foo: :bar}) }
 
     it "returns report using reporter specified by config" do
-      subject.report_for(fixture).should == [{name: :report_for, foo: :bar, include_allowed: true}, fixture]
+      subject.report_for(fixture).should == [{use: :report_for, foo: :bar, include_allowed: true}, fixture]
     end
   end
 end

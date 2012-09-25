@@ -4,7 +4,7 @@ require 'mail'
 module Pendaxes
   class Notificator
     class Mail < Notificator
-      defaults reporter: {name: :text}, blacklist: []
+      defaults reporter: {use: :text}, blacklist: []
 
       def notify
         if @config.to

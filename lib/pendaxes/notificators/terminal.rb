@@ -3,7 +3,7 @@ require_relative '../notificator'
 module Pendaxes
   class Notificator
     class Terminal < Notificator
-      defaults to: $stdout, reporter: {name: :text}
+      defaults to: $stdout, reporter: {use: :text}
 
       def notify
         io = @config.to

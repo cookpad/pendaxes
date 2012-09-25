@@ -9,7 +9,7 @@ module Pendaxes
     extend Defaults
     extend Finder
     find_in 'pendaxes/notificators'
-    defaults reporter: {name: :text}
+    defaults reporter: {use: :text}
 
     def initialize(config={})
       @config = Hashr.new(self.class.defaults.merge(config))
@@ -20,7 +20,7 @@ module Pendaxes
     end
 
     def reporter
-      Reporter.find(@config.reporter.name.to_sym)
+      Reporter.find(@config.reporter.use.to_sym)
     end
 
     def report_for(pendings)

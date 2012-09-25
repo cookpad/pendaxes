@@ -57,7 +57,7 @@ describe Pendaxes::Notificator::Mail do
 
   describe "#notify" do
     include Mail::Matchers
-    let(:config_root) { {reporter: {name: :test_reporter}, from: "sorah+from@cookpad.com", include_allowed: true} }
+    let(:config_root) { {reporter: {use: :test_reporter}, from: "sorah+from@cookpad.com", include_allowed: true} }
     let(:config) { config_root }
     let(:deliveries) { Mail::TestMailer.deliveries }
     subject { described_class.new(config) }
@@ -174,7 +174,7 @@ describe Pendaxes::Notificator::Mail do
     end
 
     context "when reporter's html is true" do
-      let(:config) { {reporter: {name: :test_html_reporter} } }
+      let(:config) { {reporter: {use: :test_html_reporter} } }
 
       it "sends mail as text/html" do
         deliveries.all? {|delivery| delivery.content_type == 'text/html; charset=utf-8' }.should be_true

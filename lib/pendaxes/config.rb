@@ -2,9 +2,9 @@ require 'hashr'
 
 module Pendaxes
   class Config < Hashr
-    define detection: {name: :rspec},
+    define detection: {use: :rspec},
            workspace: {},
-           report: {name: :text, to: "report.txt"},
-           notifications: [{name: :terminal}]
+           report: {use: :text, to: "report.txt"},
+           notifications: [{use: :terminal}]
   end
 end
