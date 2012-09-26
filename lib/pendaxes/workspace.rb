@@ -10,6 +10,7 @@ module Pendaxes
     end
 
     def clone
+      raise RemoteUrlMissing, "Set git remote url to workspace.repository, or clone to path yourself." unless @config.repository
       FileUtils.remove_entry_secure(path) if File.exist?(path)
       git "clone", @config.repository, path
     end
@@ -19,7 +20,7 @@ module Pendaxes
 
       dive do
         git "fetch", "origin"
-        git "reset", "--hard", @config.branch || "FETCH_HEAD"
+        git "reset", "--hard", @config.branch || "origin/HEAD"
       end
     end
 
@@ -35,5 +36,7 @@ module Pendaxes
       str = IO.popen([@config.git || "git", *args], 'r', &:read)
       $?.success? ? str : nil
     end
+    
+    class RemoteUrlMissing < Exception; end
   end
 end
