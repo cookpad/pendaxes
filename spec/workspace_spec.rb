@@ -37,7 +37,7 @@ describe Pendaxes::Workspace do
     it "fetch and reset" do
       subject.should_receive(:dive).and_yield.ordered
       subject.should_receive(:git).with("fetch", "origin").ordered
-      subject.should_receive(:git).with("reset", "--hard", "FETCH_HEAD").ordered
+      subject.should_receive(:git).with("reset", "--hard", "origin/HEAD").ordered
 
       subject.update
     end
@@ -51,7 +51,7 @@ describe Pendaxes::Workspace do
         subject.should_receive(:clone).ordered
         subject.should_receive(:dive).and_yield.ordered
         subject.should_receive(:git).with("fetch", "origin").ordered
-        subject.should_receive(:git).with("reset", "--hard", "FETCH_HEAD").ordered
+        subject.should_receive(:git).with("reset", "--hard", "origin/HEAD").ordered
 
         subject.update
       end
