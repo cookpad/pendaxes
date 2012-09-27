@@ -51,6 +51,7 @@ module Pendaxes
               }
 
               pending[:commit] = blame(file, line)
+              next unless pending[:commit]
               pending[:allowed] = (Time.now - pending[:commit][:at]) <= @config.allowed_for
 
               pendings << pending
@@ -70,6 +71,12 @@ module Pendaxes
           sha: blame[0].first, name: blame[1][1..-1].join(' '),
           email: blame[2][1..-1].join(' ').gsub(/^</,'').gsub(/>$/,'')
         }
+
+        if commit[:sha] == "0000000000000000000000000000000000000000" && commit[:name] == "Not Committed Yet"
+          @config.out.puts "    NOT COMMITTED YET, skipping." if @config.out
+          return nil
+        end
+
         commit[:at] = Time.parse(@workspace.git(*%w(log --pretty=%aD -n1), commit[:sha]).chomp)
         commit
       end

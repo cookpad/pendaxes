@@ -19,11 +19,16 @@ Avoid the trouble due to pending examples :D
 
     $ pendaxes <config_file>
 
-(writing in cron is recommended)
+See `pendaxes --help` for more.
 
 ### Configuration
 
-#### Minimal
+    $ pendaxes --init # will write to .pendaxes.yml
+    $ pendaxes --init config.yml # will write to config.yml
+
+see https://github.com/cookpad/pendaxes/wiki/Configuration for detail.
+
+#### Example
 
 Clone `https://github.com/foo/bar.git` to `/path/to/be/cloned/repository`, then detect pendings using rspec detector (default).
 
@@ -39,65 +44,9 @@ Finally send notification to committers via email (from `no-reply@example.com`).
           use: haml
       - use: mail
         from: no-reply@example.com
+        delivery_method: sendmail
         reporter:
           use: haml
-
-
-#### Full
-
-    detection:
-      use: rspec           # use rspec detector for pending detection. (default)
-    # pattern: '*_spec.rb' # this will be passed after `git grep ... --`. Default is "*_spec.rb".
-    # allowed_for: 604800  # (second) = 1 week. Pendings will be marked "not allowed" if it elapsed more than this value
-
-    workspace:
-      path: /path/to/be/cloned/repository            # where to clone?
-      repository: "https://github.com/user/repo.git" # where clone from?
-
-    notifications: # notifications. multiple values are accepted.
-      - use: terminal # use terminal notificator. will show pendings on Terminal.
-
-      - use: file                # use file notificator. this will write report
-        to: "report.html"        # where to save?
-        reporter:                # report configuration to save
-          use: haml              # what reporter to use (haml and text is bundled in the gem)
-          include_allowed: true  # include "allowed" pendings in report. (default: true)
-
-          # VVV haml reporter specific configuration VVV
-          # Used for link to commit. %commit% will be replaced to sha1. If not specified, will not be a link.
-          commit_url: "https://github.com/user/repo/commit/%commit%"
-          # Used for link to file. %file% and %line% will be replaced to filepath and line no. If not specified, will not be a link.
-          file_url: "https://github.com/user/repo/blob/HEAD/%file%#L%line%"
-
-      - use: mail # use mail notificator. will send mails about left pendings.
-        reporter:
-          use: haml
-          commit_url: "https://github.com/user/repo/commit/%commit%"
-          file_url: "https://github.com/user/repo/blob/HEAD/%file%#L%line%"
-
-        # VVV mail notificator specific configuration VVV
-        from: no-reply@example.com
-        to: foo@example.com # (optional) mail will be sent once to this mail address.
-                            # without this, mail will be sent separated for each committer.
-                            # (mails will include pendings added by its recipient only.)
-
-        delivery_method: sendmail # specify delivery_method. https://github.com/mikel/mail for more detail.
-        delivery_options:         # (optional) used as option for delivery_method.
-          :location: /usr/sbin/sendmail
-
-        whitelist:          # (optional) if whitelist set, mail won't be sent if not matched.
-          - foo@bar         #   complete match.
-          - /example\.com$/ #   used as regexp.
-        blacklist:          # (optional) mail won't be sent if matched. preferred than whitelist.
-          - black@example.com
-          - /^black/
-
-        alias:              # (optional) Aliasing emails. if mail will be sent to <value> if git commit author is <key>.
-          "foo@gmail.com": "foo@company.com"
-
-
-* Reporter: generates text or html (report) by given pendings
-* Notificator: throw pendings to reporter and get report, and notify it (via mail, to terminal, to file, etc...)
 
 ## Axes?
 
