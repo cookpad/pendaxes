@@ -56,6 +56,12 @@ Throwing axe means "comment my opnion."
 
 This script throws axe to committer, about his/her uncontrolled pending tests.
 
+### See Also
+
+椅子を投げる (Throwing chairs) is similarly:
+
+<http://speakerdeck.com/u/riywo/p/ops-tool-made-by-perl-beginner?slide=11>
+
 ## Requirements
 
 * Ruby 1.9+ (1.9.3 supported)
