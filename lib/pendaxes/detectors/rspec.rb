@@ -19,8 +19,9 @@ module Pendaxes
       def detect
         @workspace.dive do
           pattern = @config.pattern.is_a?(Array) ? @config.pattern : [@config.pattern]
-          grep = @workspace.git(*GREP_CMD, *pattern).force_encoding("UTF-8")
-          return [] unless grep
+          grep_raw = @workspace.git(*GREP_CMD, *pattern)
+          return [] unless grep_raw
+          grep = grep_raw.force_encoding("UTF-8")
           files = grep.split(/\r?\n/).map(&:chomp)
 
           files.inject([]) do |pendings, file|
