@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Pendaxes : Send reminder to developers about their left pending tests!" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Pendaxes</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/cookpad/pendaxes">View on GitHub</a>
+
+          <h1 id="project_title">Pendaxes</h1>
+          <h2 id="project_tagline">Send reminder to developers about their left pending tests!</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/cookpad/pendaxes/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/cookpad/pendaxes/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><img src="https://img.skitch.com/20120925-essq4fdifg79axb2ssi2cyb2ne.png" alt="sample notification using mail"></p>
+
+<p>Throw axes to pending makers!</p>
+
+<p>Leaving a <code>pending</code> of tests is really bad, it shouldn't happen. They'll become a trouble.
+So, this gem sends notification to committer that their left pending.</p>
+
+<p>Hope you avoid the trouble due to pending examples :D</p>
+
+<h2>Installation</h2>
+
+<p>(Ruby 1.9+ required)</p>
+
+<pre><code>$ gem install pendaxes
+</code></pre>
+
+<h2>Usage</h2>
+
+<pre><code>$ pendaxes &lt;config_file&gt; # default to ./.pendaxes.yml
+</code></pre>
+
+<p>See <code>pendaxes --help</code> for more details.</p>
+
+<h3>Configuration</h3>
+
+<pre><code>$ pendaxes --init            # will write to .pendaxes.yml
+$ pendaxes --init config.yml # will write to config.yml
+</code></pre>
+
+<p>see <a href="https://github.com/cookpad/pendaxes/wiki/Configuration">https://github.com/cookpad/pendaxes/wiki/Configuration</a> for detail.</p>
+
+<h4>Example</h4>
+
+<p>Clone <code>https://github.com/foo/bar.git</code> to <code>/path/to/be/cloned/repository</code>, then detect pendings using rspec detector (default).</p>
+
+<p>Finally send notification to committers via email (from <code>no-reply@example.com</code>).</p>
+
+<pre><code>workspace:
+  path: /path/to/be/cloned/repository        # where to clone?
+  repository: https://github.com/foo/bar.git # where clone from?
+notifications:
+  - use: file
+    to: "report.html"
+    reporter:
+      use: haml
+  - use: mail
+    from: no-reply@example.com
+    delivery_method: sendmail
+    reporter:
+      use: haml
+</code></pre>
+
+<h2>Axes?</h2>
+
+<p>斧... Axe in Japanese. Recently, Japanese engineer says a review comment as axe (斧).</p>
+
+<p>Throwing axe means "comment my opnion."</p>
+
+<p>This script throws axe to committer, about his/her uncontrolled pending tests.</p>
+
+<h3>See Also</h3>
+
+<p>椅子を投げる (Throwing chairs) is similarly:</p>
+
+<p><a href="http://speakerdeck.com/u/riywo/p/ops-tool-made-by-perl-beginner?slide=11">http://speakerdeck.com/u/riywo/p/ops-tool-made-by-perl-beginner?slide=11</a></p>
+
+<p><a href="http://www.flickr.com/photos/andrew_freese/2200774154/">http://www.flickr.com/photos/andrew_freese/2200774154/</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Pendaxes maintained by <a href="https://github.com/cookpad">cookpad</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
