@@ -4,7 +4,7 @@ module Pendaxes
   class Config < Hashr
     define detection: {use: :rspec},
            workspace: nil,
-           report: {use: :text, to: "report.txt"},
-           notifications: [{use: :terminal}]
+           reporter: {use: :text, to: "report.txt", include_allowed: false},
+           notifications: [{use: :terminal, include_allowed: true}]
   end
 end
