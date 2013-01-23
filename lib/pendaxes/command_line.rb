@@ -217,26 +217,35 @@ Usage:
           end
         end.parse!(@args)
 
-        files = @args.map { |pattern|
-          Dir[pattern].map do |file_or_directory|
-            if FileTest.file?(file_or_directory)
-              file_or_directory
-            elsif FileTest.directory?(file_or_directory)
-              Dir[File.join(file_or_directory, '**', '*_spec.rb')]
-            else
-              abort "#{$0}: #{file_or_directory}: No such file or directory"
-            end
-          end
-        }.flatten
+        if @args.empty?
+          return usage
+        end
 
         workspace = Workspace.new(path: path)
+
+        files = workspace.dive do
+          @args.map { |pattern|
+            sub_files = Dir[pattern].map do |file_or_directory|
+              if FileTest.file?(file_or_directory)
+                file_or_directory
+              elsif FileTest.directory?(file_or_directory)
+                Dir[File.join(file_or_directory, '**', '*_spec.rb')]
+              end
+            end
+            if sub_files.empty?
+              abort "#{$0}: #{pattern}: No such file or directory"
+            end
+            sub_files
+          }.flatten.map { |_| File.expand_path(_) }
+        end
+
         $stderr.puts '=> Detecting...' unless quiet
-        pendings = Detector.find(:rspec).new(workspace, out: quiet ? nil : $stderr).detect
+        pendings = Detector.find(:rspec).new(workspace, out: quiet ? nil : $stderr, pattern: files).detect
         $stderr.puts '=> Total Result:' unless quiet
 
         notificator = Notificator.find(:terminal).new(
-          out: $stdout,
-          reporter: {use: reporter}
+          out: $stdout, include_allowed: true,
+          reporter: {use: reporter, include_allowed: true}
         )
         notificator.add pendings
         notificator.notify
