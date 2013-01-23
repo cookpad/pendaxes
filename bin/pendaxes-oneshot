@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+
+retried = false
+begin
+  require 'pendaxes'
+rescue LoadError
+  $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+  if retried
+    raise
+  else
+    retried = true
+    retry
+  end
+end
+
+exit Pendaxes.oneshot_run(*ARGV)

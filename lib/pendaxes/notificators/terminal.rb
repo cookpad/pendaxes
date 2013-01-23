@@ -7,12 +7,7 @@ module Pendaxes
 
       def notify
         io = @config.to
-        pendings.group_by{|x| "#{x[:commit][:name]} <#{x[:commit][:email]}>" }.each do |name, pends|
-          io.puts "#{name}:"
-          io.puts
-          io.puts report_for(pends)
-          io.puts
-        end
+        io.puts report_for(pendings)
       end
     end
   end
