@@ -26,6 +26,8 @@ describe Pendaxes::Reporter::Text do
 
     it "reports older pending first" do
       subject.report.should == (<<-EOR).chomp
+foo <foo@example.com>:
+
 * a_spec.rb:15 - pending 'because it fails.' (@ b #{now-864000})
 * a_spec.rb:10 - pending 'because it fails' (@ a #{now-86400})
       EOR

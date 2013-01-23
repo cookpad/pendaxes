@@ -41,7 +41,6 @@ foo <foo@example.com>:
 bar <bar@example.com>:
 
 * a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
-
       EOF
     end
 
@@ -59,7 +58,6 @@ bar <bar@example.com>:
 
 * a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
 * a_spec.rb:20 - pending 'because it fails..' (@ c #{now-86400})
-
         EOF
       end
     end
