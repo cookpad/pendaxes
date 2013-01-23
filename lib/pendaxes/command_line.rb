@@ -4,13 +4,14 @@ require_relative "./detector"
 require_relative "./reporter"
 require_relative "./notificator"
 require 'yaml'
+require 'optparse'
 
 module Pendaxes
   class CommandLine
     DEFAULT_CONFIG_FILE = ".pendaxes.yml"
 
     def initialize(*args)
-      @args = args
+      @args = args.dup
       @config = nil
     end
 
@@ -186,6 +187,78 @@ Usage:
       end
 
       0
+    end
+
+    class Oneshot
+      def initialize(*args)
+        @args = args
+      end
+
+      def run
+        quiet = false
+        path = Dir.pwd
+        reporter = :text
+
+        OptionParser.new do |opts|
+          opts.on('-q', '--quiet', 'Turn off progress output.') do
+            quiet = true
+          end
+
+          opts.on('-d DIR', '--repo DIR', 'Specify path to working copy of git.') do |dir|
+            path = dir
+          end
+
+          opts.on('-r REPORTER', '--reporter REPORTER', 'Specify reporter') do |name|
+            reporter = name.to_sym
+          end
+
+          opts.on_tail('--help', 'Show this help') do
+            return usage
+          end
+        end.parse!(@args)
+
+        files = @args.map { |pattern|
+          Dir[pattern].map do |file_or_directory|
+            if FileTest.file?(file_or_directory)
+              file_or_directory
+            elsif FileTest.directory?(file_or_directory)
+              Dir[File.join(file_or_directory, '**', '*_spec.rb')]
+            else
+              abort "#{$0}: #{file_or_directory}: No such file or directory"
+            end
+          end
+        }.flatten
+
+        workspace = Workspace.new(path: path)
+        $stderr.puts '=> Detecting...' unless quiet
+        pendings = Detector.find(:rspec).new(workspace, out: quiet ? nil : $stderr).detect
+        $stderr.puts '=> Total Result:' unless quiet
+
+        notificator = Notificator.find(:terminal).new(
+          out: $stdout,
+          reporter: {use: reporter}
+        )
+        notificator.add pendings
+        notificator.notify
+
+        0
+      end
+
+      def usage
+        $stderr.puts "Usage: pendaxes-oneshot [--help] [-q|--quiet] [-d DIR|--repo=DIR] [-r REPORTER|--reporter REPORTER] file_or_directory [file_or_directory ...]"
+        $stderr.puts ""
+        $stderr.puts "file_or_directory:"
+        $stderr.puts "  File name, pattern or directory name to detect pendings."
+        $stderr.puts "  if directory name given, will use *_spec.rb files in that directory (recursive)."
+        $stderr.puts ""
+        $stderr.puts "  NOTE: Files should be managed by git."
+        $stderr.puts ""
+        $stderr.puts "--help: Show this help and quit."
+        $stderr.puts "--quiet, -q: Turn off progress output."
+        $stderr.puts "--repo, -d: Specify path to working copy of git repository. (default: current directory)"
+        $stderr.puts "--reporter, -r: Specify reporter. (Default: text)"
+        0
+      end
     end
   end
 end
