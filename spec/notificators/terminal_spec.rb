@@ -31,9 +31,11 @@ describe Pendaxes::Notificator::Terminal do
       subject.notify
     end
 
-    it "notifies into terminal" do
-      out = io.string
-      out.should == <<-EOF
+    context "without :include_allowed" do
+      let(:config) { {to: io, include_allowed: false} }
+      it "notifies into terminal" do
+        out = io.string
+        out.should == <<-EOF
 foo <foo@example.com>:
 
 * a_spec.rb:15 - pending 'because it fails.' (@ b #{now-864000})
@@ -41,14 +43,13 @@ foo <foo@example.com>:
 bar <bar@example.com>:
 
 * a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
-      EOF
+        EOF
+      end
     end
 
-    context "with :include_allowed" do
-      let(:config) { {to: io, include_allowed: true} }
-      it "notifies all into terminal" do
-        out = io.string
-        out.should == <<-EOF
+    it "notifies all into terminal" do
+      out = io.string
+      out.should == <<-EOF
 foo <foo@example.com>:
 
 * a_spec.rb:15 - pending 'because it fails.' (@ b #{now-864000})
@@ -58,8 +59,7 @@ bar <bar@example.com>:
 
 * a_spec.rb:25 - pending 'because it fails...' (@ d #{now-864000})
 * a_spec.rb:20 - pending 'because it fails..' (@ c #{now-86400})
-        EOF
-      end
+      EOF
     end
   end
 end
